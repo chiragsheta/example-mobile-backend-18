@@ -254,7 +254,7 @@ post '/create-payment-intent' do
     #amount: calculate_order_amount(data['items']),
     amount: data['price'],
     currency: 'sgd',
-    customer: data['customer'],
+    #customer: data['customer'],
     automatic_payment_methods: {
       enabled: true,
     },
