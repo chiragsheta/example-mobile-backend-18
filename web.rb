@@ -251,8 +251,10 @@ post '/create-payment-intent' do
 
   # Create a PaymentIntent with amount and currency
   payment_intent = Stripe::PaymentIntent.create(
-    amount: calculate_order_amount(data['items']),
-    currency: 'usd',
+    #amount: calculate_order_amount(data['items']),
+    amount: data['price'],
+    currency: 'sgd',
+    customer: data['customer'],
     automatic_payment_methods: {
       enabled: true,
     },
