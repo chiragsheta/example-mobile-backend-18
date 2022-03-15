@@ -268,7 +268,6 @@ get '/create-customer-new2' do
 			  :my_customer_id => '289ASJD89KALSNFKLHS89234',
 			},
 		)
-  rescue Stripe::InvalidRequestError
   end
  puts @customer 
 end
