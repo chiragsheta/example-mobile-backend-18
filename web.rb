@@ -354,39 +354,23 @@ post '/create-payment-intent' do
   begin
 	#@customer = create_customer()
 	@customer = Stripe::Customer.create(
-			:name => data['name'],
-			:email => data['email'],
-			:phone => data['phone'],
-			:address => data['address'],
-			:description => data['description'],
-			:metadata => {
-			  # Add our application's customer id for this Customer, so it'll be easier to look up
-			  :my_customer_id => data['my_customer_id'],
-			},
-		)
-	# Attach some test cards to the customer for testing convenience.
-	# See https://stripe.com/docs/payments/3d-secure#three-ds-cards 
-	# and https://stripe.com/docs/mobile/android/authentication#testing
-	#['4000000000003220', '4000000000003063', '4000000000003238', '4000000000003246', '4000000000003253', '4242424242424242'].each { |cc_number|
-	 # payment_method = Stripe::PaymentMethod.create({
-	#	type: 'card',
-	#	card: {
-	#	  number: cc_number,
-	#	  exp_month: 8,
-	#	  exp_year: 2022,
-	#	  cvc: '123',
-	#	},
-	# })
-#
-	# Stripe::PaymentMethod.attach(
-	#	payment_method.id,
-	#	{
-	#	  customer: @customer.id,
-	#	}
-	#  )
-	#}
-	#rescue Stripe::InvalidRequestError
-	end
+	    :name => data['name'],
+	    :email => data['email'],
+	    :phone => data['phone'],
+	    :address => {
+	      :line1 => data['line1'],
+	      :line2 => data['line2'],
+	      :city => data['city'],
+	      :state => data['state'],
+	      :postal_code => '',
+	      :country => '',
+	    },
+	    :description => data['description'],
+	    :metadata => {
+	      :my_customer_id => data['my_customer_id'],
+	    }
+	)
+end
 	
 
   # Create a PaymentIntent with amount and currency
@@ -394,7 +378,7 @@ post '/create-payment-intent' do
     #amount: calculate_order_amount(data['items']),
     amount: data['price'],
     currency: 'sgd',
-    customer: @customer,
+    customer: @customer.id,
     automatic_payment_methods: {
       enabled: true,
     },
