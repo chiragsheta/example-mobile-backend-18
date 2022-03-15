@@ -283,7 +283,15 @@ post '/create-customer-news' do
     @customer = Stripe::Customer.create(
 	    :name => data['name'],
 	    :email => data['email'],
-	    #:phone => data['phone'],
+	    :phone => data['phone'],
+	    :address => {
+	      :line1 => data['line1'],
+	      :line2 => data['line2'],
+	      :city => data['city'],
+	      :state => data['state'],
+	      :postal_code => '',
+	      :country => '',
+	    },
 	    :description => data['description'],
 	    :metadata => {
 	      :my_customer_id => data['my_customer_id'],
@@ -292,6 +300,7 @@ post '/create-customer-news' do
   end
   #rescue Stripe::InvalidRequestError
  puts @customer
+ puts @customer.id
 end
 
 
