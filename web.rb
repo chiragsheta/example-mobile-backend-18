@@ -269,7 +269,7 @@ get '/create-customer-new2' do
 			},
 		)
   end
- puts customer
+ puts @customer
 end
 
 post '/create-customer-new3' do 
