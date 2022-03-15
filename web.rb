@@ -265,6 +265,17 @@ post '/create-payment-intent' do
   }.to_json
 end
 
+get '/create-customer-new' do
+customer = Stripe::Customer.create(
+    :description => 'mobile SDK example customer',
+    :metadata => {
+      # Add our application's customer id for this Customer, so it'll be easier to look up
+      :my_customer_id => '72F8C533-FCD5-47A6-A45B-3956CA8C792D',
+    },
+  )
+  p customer
+end
+
 # ===== PaymentIntent Manual Confirmation 
 # See https://stripe.com/docs/payments/payment-intents/ios-manual
 
