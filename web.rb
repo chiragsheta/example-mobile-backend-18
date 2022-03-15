@@ -281,17 +281,17 @@ post '/create-customer-new0' do
   begin
     #@customer = create_customer2(data['name'], data['email'], data['phone'], data['description'], data['my_customer_id'])
     customer = Stripe::Customer.create(
-	    :name => data['name'],
-	    :email => data['email'],
-	    :phone => data['phone'],
-	    :description => data['description'],
-	    :metadata => {
+	    name => data['name'],
+	    email => data['email'],
+	    phone => data['phone'],
+	    description => data['description'],
+	    metadata => {
 	      # Add our application's customer id for this Customer, so it'll be easier to look up
-	      :my_customer_id => data['my_customer_id'],
+	      my_customer_id => data['my_customer_id'],
 	    },
 	)
   end
-  rescue Stripe::InvalidRequestError
+  #rescue Stripe::InvalidRequestError
  puts @customer
 end
 
