@@ -254,9 +254,24 @@ def create_customer
   )
 end
 
-get '/create-customer-new0' do 	
+def create_customer2(arg1="", arg2="", arg3="", arg4="", arg5="", arg6="")
+  Stripe::Customer.create(
+    :name => arg1,
+    :email => arg2,
+    :phone => arg3,
+    :address => arg4,
+    :description => arg5,
+    :metadata => {
+      # Add our application's customer id for this Customer, so it'll be easier to look up
+      :my_customer_id => arg6,
+    },
+  )
+end
+get '/create-customer-new0' do
+  content_type 'application/json'
+  data = JSON.parse(request.body.read)
   begin
-	@customer = create_customer()
+	@customer = create_customer2(data['name'],data['email'],data['phone'],data['address'],data['description'],data['my_customer_id'])
   end
  puts @customer
 end
