@@ -267,7 +267,8 @@ def create_customer2(arg1="", arg2="", arg3="", arg4="", arg5="", arg6="")
     },
   )
 end
-get '/create-customer-new0' do
+
+post '/create-customer-new0' do
   content_type 'application/json'
   data = JSON.parse(request.body.read)
   begin
