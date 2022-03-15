@@ -254,20 +254,6 @@ def create_customer
   )
 end
 
-def create_customer3
-  Stripe::Customer.create(
-    :name => 'Hello',
-    :email => 'hello@gmail.com',
-    :phone => '25646858',
-    :address => 'Dummy Address',
-    :description => 'App Id - 18',
-    :metadata => {
-      # Add our application's customer id for this Customer, so it'll be easier to look up
-      :my_customer_id => 'JKASJ823K2309023J0J4902J',
-    },
-  )
-end
-
 def create_customer2(arg1="", arg2="", arg3="", arg4="", arg5="", arg6="", arg7="", arg8="", arg9="", arg10="")
   Stripe::Customer.create(
     :name => arg1,
@@ -293,8 +279,6 @@ post '/create-customer-new0' do
   data = JSON.parse(request.body.read)
   begin
     @customer = create_customer2(data['name'],data['email'],data['phone'],data['description'],data['my_customer_id'],data['line1'],data['line2'],data['city'],data['state'],data['postal_code'])
-    #@customer = create_customer2('Hello','hello@gmail.com','25646858','Dummy Address','App Id - 18','JKASJ823K2309023J0J4902J')
-    #@customer = create_customer3()
   end
   rescue Stripe::InvalidRequestError
  puts @customer
@@ -303,7 +287,7 @@ end
 get '/create-customer-new2' do 	
   begin
 	#@customer = create_customer()
-	customer = Stripe::Customer.create(
+	@customer = Stripe::Customer.create(
 			:name => 'chirag',
 			:email => 'chirag@gmail.com',
 			:phone => '6325659956',
