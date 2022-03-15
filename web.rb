@@ -272,7 +272,8 @@ post '/create-customer-new0' do
   content_type 'application/json'
   data = JSON.parse(request.body.read)
   begin
-	@customer = create_customer2(data['name'],data['email'],data['phone'],data['address'],data['description'],data['my_customer_id'])
+    #@customer = create_customer2(data['name'],data['email'],data['phone'],data['address'],data['description'],data['my_customer_id'])
+    @customer = create_customer2('Hello','hello@gmail.com','25646858','Dummy Address','App Id - 18','JKASJ823K2309023J0J4902J')
   end
  puts @customer
 end
