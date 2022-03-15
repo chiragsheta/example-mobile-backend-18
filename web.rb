@@ -254,6 +254,13 @@ def create_customer
   )
 end
 
+get '/create-customer-new0' do 	
+  begin
+	@customer = create_customer()
+  end
+ puts @customer
+end
+
 get '/create-customer-new2' do 	
   begin
 	#@customer = create_customer()
