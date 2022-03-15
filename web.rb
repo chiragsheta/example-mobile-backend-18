@@ -254,6 +254,48 @@ def create_customer
   )
 end
 
+get '/create-customer-new2' do 	
+  begin
+	#@customer = create_customer()
+	@customer = Stripe::Customer.create(
+			:name => 'chirag',
+			:email => 'chirag@gmail.com',
+			:phone => '6325659956',
+			:address => 'dummy adddress',
+			:description => 'Dummy Description',
+			:metadata => {
+			  # Add our application's customer id for this Customer, so it'll be easier to look up
+			  :my_customer_id => '289ASJD89KALSNFKLHS89234',
+			},
+		)
+  rescue Stripe::InvalidRequestError
+  end
+ puts @customer 
+end
+
+post '/create-customer-new3' do 
+  content_type 'application/json'
+  data = JSON.parse(request.body.read)
+	
+  begin
+	#@customer = create_customer()
+	@customer = Stripe::Customer.create(
+			:name => data['name'],
+			:email => data['email'],
+			:phone => data['phone'],
+			:address => data['address'],
+			:description => data['description'],
+			:metadata => {
+			  # Add our application's customer id for this Customer, so it'll be easier to look up
+			  :my_customer_id => data['my_customer_id'],
+			},
+		)
+	  
+  rescue Stripe::InvalidRequestError
+  end
+ puts @customer 
+end
+
 post '/create-customer-new' do 
   content_type 'application/json'
   data = JSON.parse(request.body.read)
@@ -299,7 +341,7 @@ post '/create-customer-new' do
   end
 	
   {
-    customerDetail: customer['client_secret']
+    customerDetail: @customer['client_secret']
   }.to_json
 end
 
