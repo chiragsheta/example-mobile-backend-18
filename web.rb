@@ -275,66 +275,25 @@ def create_customer2(arg1="", arg2="", arg3="", arg4="", arg5="")
   )
 end
 
-post '/create-customer-new0' do
+post '/create-customer-news' do
   content_type 'application/json'
   data = JSON.parse(request.body.read)
   begin
     #@customer = create_customer2(data['name'], data['email'], data['phone'], data['description'], data['my_customer_id'])
-    customer = Stripe::Customer.create(
+    @customer = Stripe::Customer.create(
 	    :name => data['name'],
 	    :email => data['email'],
 	    #:phone => data['phone'],
-	    :description => data['description'],
+	    :description => data['description']
 	    :metadata => {
-	      # Add our application's customer id for this Customer, so it'll be easier to look up
 	      :my_customer_id => data['my_customer_id'],
-	    },
+	    }
 	)
   end
   #rescue Stripe::InvalidRequestError
- #puts @customer
-end
-
-get '/create-customer-new2' do 	
-  begin
-	#@customer = create_customer()
-	@customer = Stripe::Customer.create(
-			:name => 'chirag',
-			:email => 'chirag@gmail.com',
-			:phone => '6325659956',
-			:address => 'dummy adddress',
-			:description => 'Dummy Description',
-			:metadata => {
-			  # Add our application's customer id for this Customer, so it'll be easier to look up
-			  :my_customer_id => '289ASJD89KALSNFKLHS89234',
-			},
-		)
-  end
  puts @customer
 end
 
-post '/create-customer-new3' do 
-  content_type 'application/json'
-  data = JSON.parse(request.body.read)
-	
-  begin
-	#@customer = create_customer()
-	@customer = Stripe::Customer.create(
-			:name => data['name'],
-			:email => data['email'],
-			:phone => data['phone'],
-			:address => data['address'],
-			:description => data['description'],
-			:metadata => {
-			  # Add our application's customer id for this Customer, so it'll be easier to look up
-			  :my_customer_id => data['my_customer_id'],
-			},
-		)
-	  
-  rescue Stripe::InvalidRequestError
-  end
- puts @customer 
-end
 
 post '/create-customer-new' do 
   content_type 'application/json'
@@ -346,43 +305,36 @@ post '/create-customer-new' do
 			:name => data['name'],
 			:email => data['email'],
 			:phone => data['phone'],
-			:address => data['address'],
 			:description => data['description'],
 			:metadata => {
-			  # Add our application's customer id for this Customer, so it'll be easier to look up
-			  :my_customer_id => data['my_customer_id'],
-			},
+			  :my_customer_id => data['my_customer_id']
+			}
 		)
 	# Attach some test cards to the customer for testing convenience.
 	# See https://stripe.com/docs/payments/3d-secure#three-ds-cards 
 	# and https://stripe.com/docs/mobile/android/authentication#testing
-	#['4000000000003220', '4000000000003063', '4000000000003238', '4000000000003246', '4000000000003253', '4242424242424242'].each { |cc_number|
-	#  payment_method = Stripe::PaymentMethod.create({
-	#	type: 'card',
-	#	card: {
-	#	  number: cc_number,
-	#	  exp_month: 8,
-	#	  exp_year: 2022,
-	#	  cvc: '123',
-	#	},
-	#  })
-#
-	#  Stripe::PaymentMethod.attach(
-	#	payment_method.id,
-	#	{
-	#	  customer: @customer.id,
-	#	}
-	#  )
-	#}
-	  
-	   puts @customer 
-	  
+	['4000000000003220', '4000000000003063', '4000000000003238', '4000000000003246', '4000000000003253', '4242424242424242'].each { |cc_number|
+	  payment_method = Stripe::PaymentMethod.create({
+		type: 'card',
+		card: {
+		  number: cc_number,
+		  exp_month: 8,
+		  exp_year: 2022,
+		  cvc: '123',
+		},
+	  })
+
+	  Stripe::PaymentMethod.attach(
+		payment_method.id,
+		{
+		  customer: @customer.id,
+		}
+	  )
+	}
+	 
   rescue Stripe::InvalidRequestError
   end
-	
-  {
-    customerDetail: @customer['client_secret']
-  }.to_json
+  puts @customer
 end
 
 # An endpoint to start the payment process
