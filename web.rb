@@ -39,6 +39,8 @@ post '/ephemeral_keys' do
   key.to_json
 end
 
+#AndroidBindings/18.0.0
+
 def authenticate!
   # This code simulates "loading the Stripe customer for your current session".
   # Your own logic will likely look very different.
@@ -88,6 +90,8 @@ end
 
 def create_customer
   Stripe::Customer.create(
+    :name => 'Test Chirag2',
+    :email => 'testchirag2@gmail.com',
     :description => 'mobile SDK example customer',
     :metadata => {
       # Add our application's customer id for this Customer, so it'll be easier to look up
@@ -95,6 +99,8 @@ def create_customer
     },
   )
 end
+
+
 
 # This endpoint responds to webhooks sent by Stripe. To use it, you'll need
 # to add its URL (https://{your-app-name}.herokuapp.com/stripe-webhook)
@@ -159,6 +165,66 @@ post '/stripe-webhook' do
     return
   end
   status 200
+end
+
+post '/create-customer-new' do
+  content_type 'application/json'
+  data = JSON.parse(request.body.read)
+  
+#  payment_intent = Stripe::PaymentIntent.create(
+#    #amount: calculate_order_amount(data['items']),
+#    amount: data['price'],
+#    currency: 'sgd',
+#    customer: data['cust'],
+#    automatic_payment_methods: {
+#      enabled: true,
+#    },
+#  )
+
+#  {
+#    clientSecret: payment_intent['client_secret']
+ # }.to_json
+  
+  begin
+	@customer = create_customer()
+
+	# Attach some test cards to the customer for testing convenience.
+	# See https://stripe.com/docs/payments/3d-secure#three-ds-cards 
+	# and https://stripe.com/docs/mobile/android/authentication#testing
+	['4000000000003220', '4000000000003063', '4000000000003238', '4000000000003246', '4000000000003253', '4242424242424242'].each { |cc_number|
+	  payment_method = Stripe::PaymentMethod.create({
+		type: 'card',
+		card: {
+		  number: cc_number,
+		  exp_month: 8,
+		  exp_year: 2022,
+		  cvc: '123',
+		},
+	  })
+
+	  Stripe::PaymentMethod.attach(
+		payment_method.id,
+		{
+		  customer: @customer.id,
+		}
+	  )
+	}
+  rescue Stripe::InvalidRequestError
+  end
+  puts @customer
+  
+  
+
+#customer = Stripe::Customer.create(
+#    :name => 'Test Chirag2',
+#    :email => 'testchirag2@gmail.com',
+#    :description => 'mobile SDK example customer',
+#    :metadata => {
+#      # Add our application's customer id for this Customer, so it'll be easier to look up
+#      :my_customer_id => '72F8C533-FCD5-47A6-A45B-3956CA8C792D',
+#    },
+#  )
+#  p customer
 end
 
 # ==== SetupIntent 
@@ -265,16 +331,7 @@ post '/create-payment-intent' do
   }.to_json
 end
 
-get '/create-customer-new' do
-customer = Stripe::Customer.create(
-    :description => 'mobile SDK example customer',
-    :metadata => {
-      # Add our application's customer id for this Customer, so it'll be easier to look up
-      :my_customer_id => '72F8C533-FCD5-47A6-A45B-3956CA8C792D',
-    },
-  )
-  p customer
-end
+
 
 # ===== PaymentIntent Manual Confirmation 
 # See https://stripe.com/docs/payments/payment-intents/ios-manual
