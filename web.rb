@@ -284,7 +284,7 @@ post '/create-customer-news' do
 	    :name => data['name'],
 	    :email => data['email'],
 	    #:phone => data['phone'],
-	    :description => data['description']
+	    :description => data['description'],
 	    :metadata => {
 	      :my_customer_id => data['my_customer_id'],
 	    }
