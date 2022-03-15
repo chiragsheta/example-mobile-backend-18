@@ -292,9 +292,15 @@ post '/create-customer-new' do
 	#	}
 	#  )
 	#}
+	  
+	   puts @customer 
+	  
   rescue Stripe::InvalidRequestError
   end
-  puts @customer
+	
+  {
+    customerDetail: customer['client_secret']
+  }.to_json
 end
 
 # An endpoint to start the payment process
