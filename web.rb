@@ -254,7 +254,10 @@ def create_customer
   )
 end
 
-get '/create-customer-new' do 
+post '/create-customer-new' do 
+  content_type 'application/json'
+  data = JSON.parse(request.body.read)
+	
   begin
 	#@customer = create_customer()
 	@customer = Stripe::Customer.create(
