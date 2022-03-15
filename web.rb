@@ -167,9 +167,9 @@ post '/stripe-webhook' do
   status 200
 end
 
-post '/create-customer-new' do
-  content_type 'application/json'
-  data = JSON.parse(request.body.read)
+get '/create-customer-new' do
+  #content_type 'application/json'
+  #data = JSON.parse(request.body.read)
   
 #  payment_intent = Stripe::PaymentIntent.create(
 #    #amount: calculate_order_amount(data['items']),
