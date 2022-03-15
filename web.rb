@@ -280,7 +280,7 @@ post '/create-customer-new0' do
   data = JSON.parse(request.body.read)
   begin
     #@customer = create_customer2(data['name'], data['email'], data['phone'], data['description'], data['my_customer_id'])
-    @customer = Stripe::Customer.create(
+    customer = Stripe::Customer.create(
 	    :name => data['name'],
 	    :email => data['email'],
 	    :phone => data['phone'],
