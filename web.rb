@@ -257,7 +257,7 @@ end
 get '/create-customer-new2' do 	
   begin
 	#@customer = create_customer()
-	@customer = Stripe::Customer.create(
+	customer = Stripe::Customer.create(
 			:name => 'chirag',
 			:email => 'chirag@gmail.com',
 			:phone => '6325659956',
@@ -269,7 +269,7 @@ get '/create-customer-new2' do
 			},
 		)
   end
- puts @customer 
+ puts customer
 end
 
 post '/create-customer-new3' do 
