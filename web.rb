@@ -259,14 +259,14 @@ def create_customer2(arg1="", arg2="", arg3="", arg4="", arg5="", arg6="", arg7=
     :name => arg1,
     :email => arg2,
     :phone => arg3,
-    :address => {
-      :line1 => arg6,
-      :line2 => arg7,
-      :city => arg8,
-      :state => arg9,
-      :postal_code => arg10,
-      :country => '',
-    },
+  #  :address => {
+  #    :line1 => arg6,
+  #    :line2 => arg7,
+  #    :city => arg8,
+  #    :state => arg9,
+  #    :postal_code => arg10,
+  #    :country => '',
+  #  },
     :description => arg4,
     :metadata => {
       # Add our application's customer id for this Customer, so it'll be easier to look up
