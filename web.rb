@@ -265,6 +265,7 @@ def create_customer2(arg1="", arg2="", arg3="", arg4="", arg5="", arg6="", arg7=
       :city => arg8,
       :state => arg9,
       :postal_code => arg10,
+      :country => '',
     },
     :description => arg4,
     :metadata => {
@@ -281,7 +282,7 @@ post '/create-customer-new0' do
     @customer = create_customer2(data['name'],data['email'],data['phone'],data['description'],data['my_customer_id'],data['line1'],data['line2'],data['city'],data['state'],data['postal_code'])
   end
   rescue Stripe::InvalidRequestError
- puts @customer
+ #puts @customer
 end
 
 get '/create-customer-new2' do 	
